@@ -4,6 +4,9 @@
 \usepackage[english]{babel}
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
+\ifdefined\XeTeXversion
+\usepackage{fontspec}
+\fi
 \usepackage{url}
 \usepackage[hidelinks]{hyperref}
 \usepackage{cite}
@@ -58,6 +61,35 @@ Essential and local functions will be free. However, the price of the premium su
 \section*{List of functions}
 \subsection*{Video-to-audio translation}
 \subsection*{Navigation}
+
+The navigation design for KIRTA combines GPS with local camera analysis. GPS provides the general position on the map and supports the route to a destination. The local AI follows the camera feed and identifies what is happening near the person. These sections describe a preliminary design, with implementation and testing to follow.
+
+A person may be on the correct route and still face a blocked pavement, stairs or a vehicle approaching from the side. The navigation feature needs to deal with that part of the journey too. The phone will be attached to a strap, with its camera facing the surroundings, leaving the person's hands free.
+
+GPS.gov reports typical smartphone accuracy within about 4.9 metres under open sky. Accuracy gets worse near buildings, bridges and trees~\cite{gpsaccuracy}. GPS gives the app a starting position, while the camera supplies a view of the immediate surroundings. Another goal is to use visual information to refine the position estimate as the person moves. Matching what the camera sees to a particular place on the map remains an open technical question.
+
+Hazard detection is planned to run locally on the phone, analysing the camera feed throughout the walk. The recognition tasks include stairs, obstacles along the path and moving vehicles. With vehicles, movement matters as much as recognising the object: the system needs to assess whether it is approaching the user's path. Evaluation will measure detection errors and the delay between a hazard appearing and a warning being spoken.
+
+In the study of Be My AI by Xie and colleagues, participants described stopping to take pictures and checking whether they had captured the information needed for navigation. Some descriptions also lacked details about nearby obstacles~\cite{xie2025}. These findings are relevant to KIRTA's use of a camera feed that updates as the user moves.
+
+NavCog offers another useful reference. It used Bluetooth beacons installed in the environment and was tested with six blind participants on a university campus~\cite{navcog2016}. Our design centres on the camera carried by the user. Soundscape is relevant to the audio side: it explored spatial sound for nearby places and a chosen destination~\cite{soundscape}. These projects give us examples of both location support and ways to communicate directions.
+
+For everyday use, KIRTA should stay quiet until there is useful information to pass on. A possible hazard takes priority; a fuller description of the surroundings can be requested. The assistance is intended to work alongside the person's mobility skills and aids, including a white cane or guide dog.
+
+\subsection*{Narration of on-screen activity}
+
+When a new SMS arrives, KIRTA should let the user know and offer to read it. This is the simplest example of screen narration in the project. The same feature covers incoming calls, notifications and changes in the open app. AI is intended to interpret this information and produce a short explanation that can be spoken through the headphones.
+
+The explanation needs to fit what the person is doing. After pressing a button, the useful information is usually the result: whether the action succeeded, whether the app is still waiting or whether an error appeared. On opening an unfamiliar screen, a brief description of its contents and available actions may be more useful. These situations call for different amounts of detail. Repeating the whole screen after every change would make even a simple task tiring.
+
+Android provides two possible sources for this feature. Accessibility services can inspect available interface elements and receive events such as clicks and changes of focus~\cite{androidaccessibility}. A notification listener service receives updates when notifications are posted or removed~\cite{androidnotifications}. Access depends on the required configuration and permissions. In the initial Android design, these mechanisms would supply information for the AI to explain. Image-based recognition is a further option for screens where the exposed text and controls are insufficient.
+
+W3C guidance helps specify the information worth keeping in that explanation. An accessible control has a name and role, together with relevant state information. A checkbox needs its label and whether it is selected~\cite{wcagname}. Status messages describe progress, errors and action results without requiring the user to move focus to the message~\cite{wcagstatus}. A meaningful focus order also helps people follow web content~\cite{wcagfocus}. We use these web accessibility principles as a reference for the spoken interaction in KIRTA.
+
+Our proposed interaction gives the user control over longer descriptions and private messages. A short notification can be followed by a request to read more, repeat it or stop speaking. The account of AI errors in Xie and colleagues' study is relevant here too: generated explanations can include details that the input does not support~\cite{xie2025}. Screen narration therefore needs to stay grounded in the available interface information. Confirmation that a message was sent, for example, must come from the app's reported state.
+
+Phone narration will share the audio output with navigation warnings. The proposed design gives a possible hazard outside priority over an ordinary notification and avoids repeated announcements of unchanged information. Evaluation should include tasks such as noticing a new message and understanding a change on the screen. The records should include missed updates, incorrect descriptions and unnecessary interruptions.
+
 \subsection*{Friend}
 
 \subsection*{Voice command recognition}
@@ -91,6 +123,25 @@ We would test the first version with a small set of commands, different contact 
 A simple development plan would start with one Android screen and a button for recording a command. Next, we could add spoken answers and a few actions, such as opening the dialer. Only after these functions work would we connect the camera and other features from the team. It is easier to find problems step by step than to build everything at once.
 
 
+
+
+\section*{Legal challenges and proposed solutions}
+
+KIRTA would process camera images, location, contacts and messages. These data can reveal information about the user and other people nearby. The GDPR requires a lawful basis for processing, data minimisation and appropriate security~\cite{gdpr}. We therefore propose local processing where possible, no recording of continuous video by default, and access only to the data needed for a requested function. Before using a cloud service, we would document which data leave the phone, why they are needed, who receives them and when they are deleted. Local processing alone would not remove data protection obligations.
+
+Face recognition creates an additional problem. Biometric data processed to identify a person uniquely receive special protection under the GDPR~\cite{gdpr}. For the prototype, face recognition would remain disabled. A later version could consider a small list of consenting contacts, but the user's permission alone would not settle the rights of bystanders. We would need to check the lawful basis, applicable exceptions and safeguards before developing this feature. Camera, microphone, location and accessibility access should also be explained in an accessible form, with a simple way to withdraw access.
+
+Another question is whether some functions would qualify as medical device software. The EU Medical Devices Regulation includes software with an intended medical purpose, including compensation for a disability~\cite{mdr2017}. We cannot assume that KIRTA is outside this regulation simply because it does not diagnose illness. We would first define the intended purpose and obtain a qualification and classification assessment using the relevant guidance~\cite{mdcg2019software}. The AI Act must also be assessed separately. For example, its Article 6(1) route requires both a covered product or safety component and a requirement for third-party conformity assessment; using AI alone does not establish this classification~\cite{aiact,mdcg2025ai}. These questions would need to be resolved before deployment, and the student prototype would not be presented as a certified product.
+
+\section*{Medical and safety challenges and proposed solutions}
+
+The main safety problem is that a missed obstacle, a wrong description or a late warning could cause an injury. We propose KIRTA as additional information alongside the user's usual mobility aids and training. It should not tell the user that crossing a road is safe. When the camera is covered, processing stops or the battery becomes low, the application should announce that the relevant function is unavailable instead of continuing as if it worked normally.
+
+Audio output can also compete with sounds from traffic and other people. We would test short warnings, adjustable volume and a repeat command, and discuss suitable earphones with users and orientation and mobility specialists. Urgent warnings should interrupt ordinary messages, while repeated non-urgent descriptions could be reduced. These are proposed design choices; they would need testing rather than being treated as proof of safety for every user.
+
+Generative models may produce incorrect or incomplete statements, and confident answers can encourage overreliance. WHO identifies these risks and automation bias in its guidance on AI for health~\cite{who2024ai}. KIRTA should therefore describe only information supported by its input and make uncertainty clear. For this prototype, we would exclude diagnosis, medication advice and treatment decisions. Questions requiring medical judgement should be referred to a qualified professional.
+
+Testing would begin with recorded scenes and controlled indoor routes before any supervised outdoor evaluation. We would measure missed hazards, false alarms and warning delay under different lighting, noise and camera positions. Blind and low-vision volunteers and mobility specialists should help assess whether the warnings are understandable and useful. Participation would require accessible information and consent, and a trial should stop if a technical failure makes it unsafe. Small prototype tests would support further development, not establish clinical effectiveness or justify independent use in traffic.
 
 {\small
 \bibliography{literatura}
