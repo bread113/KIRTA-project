@@ -56,7 +56,7 @@ Instead of holding the phone all the time, the phone is secured by a case with a
 \subsection*{Monetization}
 
 
-Essential and local functions will be free. However, the price of the premium subscription will depend on the support of partners (banks, retailers, transit) and the state~\cite{eaa}.
+We propose free local assistance and an optional paid cloud-description plan, with pilot funding and sponsored seats to be explored; WHO identifies affordability as a barrier to assistive technology~\cite{whotechnology2024}. The budget and revenue assumptions are detailed below.
 
 \section*{List of functions}
 \subsection*{Video-to-audio translation}
@@ -125,25 +125,55 @@ A simple development plan would start with one Android screen and a button for r
 
 
 
-\section*{Legal challenges and proposed solutions}
 
-KIRTA would process camera images, location, contacts and messages. These data can reveal information about the user and other people nearby. The GDPR requires a lawful basis for processing, data minimisation and appropriate security~\cite{gdpr}. We therefore propose local processing where possible, no recording of continuous video by default, and access only to the data needed for a requested function. Before using a cloud service, we would document which data leave the phone, why they are needed, who receives them and when they are deleted. Local processing alone would not remove data protection obligations.
+\clearpage
+\section*{Budget and monetization}
 
-Face recognition creates an additional problem. Biometric data processed to identify a person uniquely receive special protection under the GDPR~\cite{gdpr}. For the prototype, face recognition would remain disabled. A later version could consider a small list of consenting contacts, but the user's permission alone would not settle the rights of bystanders. We would need to check the lawful basis, applicable exceptions and safeguards before developing this feature. Camera, microphone, location and accessibility access should also be explained in an accessible form, with a simple way to withdraw access.
+\textbf{Scope and assumptions.} We propose a three-month Android pilot for 100 users; A denotes our allowances, with citations identifying benchmarks or activities. We value 300 contributed development hours using Eurostat's 2025 EU-wide employer-cost benchmark, EUR~34.9/hour, rather than a software-developer quotation~\cite{eurolabour2025}. Hardware and testing follow the smartphone architecture and WHO's user-involvement guidance~\cite{androidcamerax,whotechnology2024}.
 
-Another question is whether some functions would qualify as medical device software. The EU Medical Devices Regulation includes software with an intended medical purpose, including compensation for a disability~\cite{mdr2017}. We cannot assume that KIRTA is outside this regulation simply because it does not diagnose illness. We would first define the intended purpose and obtain a qualification and classification assessment using the relevant guidance~\cite{mdcg2019software}. The AI Act must also be assessed separately. For example, its Article 6(1) route requires both a covered product or safety component and a requirement for third-party conformity assessment; using AI alone does not establish this classification~\cite{aiact,mdcg2025ai}. These questions would need to be resolved before deployment, and the student prototype would not be presented as a certified product.
+\begin{center}
+\small
+\renewcommand{\arraystretch}{1.12}
+\begin{tabular}{@{}p{3.3cm}p{6.3cm}r@{}}
+\hline
+\raggedright \textbf{Pilot item} & \raggedright \textbf{Calculation and evidence} &  \textbf{EUR} \tabularnewline
+\hline
+\raggedright Development (A) & \raggedright $3\times100$ hours $\times34.9$~\cite{eurolabour2025} &  10,470.00 \tabularnewline
+\raggedright Hardware (A) & \raggedright $2\times200$ for phones; 100 for straps/headsets~\cite{androidcamerax} &  500.00 \tabularnewline
+\raggedright Accessible testing (A) & \raggedright $10\times25$ participant allowances; $10\times34.9$ facilitation~\cite{whotechnology2024,eurolabour2025} &  599.00 \tabularnewline
+\raggedright Privacy/qualification review (A) & \raggedright $20\times34.9$; preliminary allowance requiring a professional quote~\cite{gdpr,mdcg2019software,eurolabour2025} &  698.00 \tabularnewline
+\raggedright Cloud inference (A) & \raggedright 100 users, 90 days, 30 requests/day; calculation below~\cite{geminipricing2026,ecbrate20261030} &  65.25 \tabularnewline
+\raggedright Hosting/logs (A) & \raggedright $3\times20$ monthly allowance; actual usage billed separately~\cite{cloudrunpricing2026} &  60.00 \tabularnewline
+\raggedright Play registration & \raggedright One-off USD~25, converted at the ECB planning rate~\cite{playregistration2026,ecbrate20261030} &  22.38 \tabularnewline
+\hline
+\raggedright Resource subtotal & \raggedright Authors' sum of the above items &  12,414.63 \tabularnewline
+\raggedright Contingency (A) & \raggedright 20\% of the subtotal &  2,482.93 \tabularnewline
+\raggedright \textbf{Total resources} & \raggedright \textbf{Including contributed development time} &  \textbf{14,897.56} \tabularnewline
+\hline
+\end{tabular}
+\end{center}
 
-\section*{Medical and safety challenges and proposed solutions}
+\textbf{Cloud calculation.} For a candidate model, Google's published Gemini~2.5 Flash-Lite standard paid rates are USD~0.10/million input tokens and USD~0.40/million output tokens; assuming 1,500 input tokens including an image and 300 total billable output tokens per request gives $270{,}000(1500\times0.10+300\times0.40)/10^6=\mathrm{USD}~72.90$ for the pilot~\cite{geminipricing2026}. At the ECB's 30 October 2026 reference rate, EUR~1 = USD~1.1172, this is EUR~65.25 before supplier taxes and exchange fees; real image sizes, retries and model changes require metering and per-user limits~\cite{ecbrate20261030,geminipricing2026}. With development contributed in kind, the base cash request including contingency is approximately EUR~2,335; commercial certification, insurance and a production launch require a separate budget following software qualification~\cite{eurolabour2025,mdcg2019software}.
 
-The main safety problem is that a missed obstacle, a wrong description or a late warning could cause an injury. We propose KIRTA as additional information alongside the user's usual mobility aids and training. It should not tell the user that crossing a road is safe. When the camera is covered, processing stops or the battery becomes low, the application should announce that the relevant function is unavailable instead of continuing as if it worked normally.
+\textbf{Revenue proposal and viability.} We propose free local warnings and basic voice/accessibility functions, with an optional EUR~4.99/month cloud-description plan capped at 900 requests; this responds to the affordability barrier identified by WHO~\cite{whotechnology2024}. For an illustrative Slovak sale, assume standard 23\% VAT and Google Play's EEA subscription charges of 10\% service plus 5\% billing: $4.99/1.23\times0.85-0.30-0.80\approx\mathrm{EUR}~2.35$ contribution per subscriber-month, where EUR~0.30 inference and EUR~0.80 support are our allowances~\cite{slovakvat2026,playfees2026,geminipricing2026}. Recovering EUR~14,900 over twelve months plus EUR~160/month for hosting and four maintenance hours would require about 600 paying subscribers; this is a sensitivity scenario, not evidence of demand~\cite{eurolabour2025,cloudrunpricing2026}. Sponsored seats and pilot grants remain uncommitted; the European Accessibility Act establishes accessibility requirements rather than funding entitlement~\cite{eaa}.
 
-Audio output can also compete with sounds from traffic and other people. We would test short warnings, adjustable volume and a repeat command, and discuss suitable earphones with users and orientation and mobility specialists. Urgent warnings should interrupt ordinary messages, while repeated non-urgent descriptions could be reduced. These are proposed design choices; they would need testing rather than being treated as proof of safety for every user.
+\clearpage
+\section*{Legal and medical challenges}
 
-Generative models may produce incorrect or incomplete statements, and confident answers can encourage overreliance. WHO identifies these risks and automation bias in its guidance on AI for health~\cite{who2024ai}. KIRTA should therefore describe only information supported by its input and make uncertainty clear. For this prototype, we would exclude diagnosis, medication advice and treatment decisions. Questions requiring medical judgement should be referred to a qualified professional.
+\textbf{Personal data and bystanders.} Under GDPR Articles~5, 6, 25 and 32, we would document lawful bases and minimise camera, location, message and contact data through local processing, short-lived buffers, minimal permissions and encryption~\cite{gdpr}. Before cloud use, we would specify roles, retention, deletion, Article~28 processor contracts and Chapter~V transfer safeguards, and assess Article~35 DPIA necessity~\cite{gdpr}. Unique face identification attracts Article~9 protection, and wearer consent cannot cover bystanders; we would disable face recognition pending a lawful design and assessment against EDPB video guidance~\cite{gdpr,edpbvideo2020}.
 
-Testing would begin with recorded scenes and controlled indoor routes before any supervised outdoor evaluation. We would measure missed hazards, false alarms and warning delay under different lighting, noise and camera positions. Blind and low-vision volunteers and mobility specialists should help assess whether the warnings are understandable and useful. Participation would require accessible information and consent, and a trial should stop if a technical failure makes it unsafe. Small prototype tests would support further development, not establish clinical effectiveness or justify independent use in traffic.
+\textbf{Medical-device and AI classification.} The MDR includes software intended to compensate for disability; avoiding diagnosis or adding a disclaimer does not establish exemption, so we would document each module's intended purpose and seek qualification/classification advice using MDCG~2019-11~\cite{mdr2017,mdcg2019software}. AI Act Article~6(1) requires both an Annex~I-covered product/safety component and third-party conformity assessment; we would assess these conditions and the separate Annex~III route before classifying KIRTA~\cite{aiactarticle62026}. Applicable medical-device risk management, technical documentation and clinical evaluation would require funding beyond this pilot~\cite{mdr2017,mdcgclinical2020}.
 
-{\small
+\textbf{Store access and user control.} Google Play reserves accessibility-tool status for apps primarily supporting people with disabilities and requires review; our AccessibilityService declaration, store description and demonstration would establish this purpose~\cite{playaccessibility2026}. We would offer spoken permission explanations, cancellation and confirmation before calls/messages; Android permissions alone do not establish GDPR compliance~\cite{gdpr,androidintents}.
+
+\textbf{Navigation injury and technical failure.} Missed obstacles, delayed warnings and an obstructed camera are foreseeable hazards; applying MDR Annex~I risk-management and software-reliability principles as a design benchmark, we propose a hazard log, offline warning priorities and explicit failure announcements for camera, battery or processing loss~\cite{mdr2017}. KIRTA would supplement established mobility aids, and would never certify that a road is safe to cross; the aim is additional information within an individually suitable combination of assistive products~\cite{whotechnology2024,mdr2017}.
+
+\textbf{Hearing, attention and AI errors.} WHO identifies loudness and exposure duration as hearing-risk factors; our proposed controls are adjustable low-volume speech, short warnings and user-selected audio arrangements, with environmental audibility checked in supervised trials~\cite{wholistening2026}. WHO also warns that multimodal models can generate false statements and encourage automation bias; KIRTA should announce uncertainty, avoid unsupported assertions and exclude diagnosis, treatment and medication decisions from the pilot~\cite{who2024ai}. These restrictions guide design and do not demonstrate clinical safety~\cite{mdcgclinical2020}.
+
+\textbf{Evidence before deployment.} Evaluation would progress from recorded scenes to indoor routes and supervised outdoor trials, using accessible consent and stopping rules, and recording missed hazards per obstacle, false warnings/hour, 95th-percentile latency, task completion and workload across lighting, noise and camera positions~\cite{mdcgclinical2020}. Users and mobility specialists would agree acceptance thresholds; MDCG~2020-1 separates technical and clinical performance, so a small usability pilot would not establish clinical benefit or readiness for unsupervised traffic use~\cite{mdcgclinical2020}.
+
+\clearpage
+{\fontsize{8.5}{10}\selectfont
 \bibliography{literatura}
 }
 \bibliographystyle{unsrt}
